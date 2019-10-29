@@ -7,12 +7,16 @@ function Point(x, y, color, size, desc) {
 
     this.show = function () {
         fill(color.r, color.g, color.b);
+        stroke(color.r, color.g, color.b);
 
         var {x, y} = translateCoordinates(this.x, this.y);
         circle(x, y, this.size);
 
         if (this.desc != undefined) {
-            fill(255, 0, 0);
+            stroke(0, 0, 0);
+            strokeWeight(1);
+
+            fill(0, 0, 0);
             textSize(18);
             text(this.desc, x + 18, y);
         }
