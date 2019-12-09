@@ -26,11 +26,6 @@ function setup() {
         var lines = dataArray.scenes[i].lines;
         var list = [];
 
-        points.forEach(element => {
-            list.push(new Point(element.x, element.y, new Color(element.color.r, element.color.g, element.color.b), element.size, element.text));
-            checkMaxMinX(element.x);
-            checkMaxMinY(element.y);
-        });
 
         lines.forEach(element => {
             list.push(new Line({
@@ -45,6 +40,12 @@ function setup() {
             checkMaxMinX(element.p2.x);
             checkMaxMinY(element.p1.y);
             checkMaxMinY(element.p2.y);
+        });
+
+        points.forEach(element => {
+            list.push(new Point(element.x, element.y, new Color(element.color.r, element.color.g, element.color.b), element.size, element.text));
+            checkMaxMinX(element.x);
+            checkMaxMinY(element.y);
         });
 
         scenes.push(list);
