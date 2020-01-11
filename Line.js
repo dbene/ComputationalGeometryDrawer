@@ -7,10 +7,7 @@ function Line(p1, p2, color, width) {
     this.show = function () {
         stroke(color.r, color.g, color.b);
         strokeWeight(this.width);
-
-        var tp1 = translateCoordinates(this.p1.x, this.p1.y);
-        var tp2 = translateCoordinates(this.p2.x, this.p2.y);
-
-        line(tp1.x, tp1.y, tp2.x, tp2.y);
+        
+        line(this.p1.x, this.p1.y, this.p2.x, this.p2.y);
     }
 }
