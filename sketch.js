@@ -4,11 +4,17 @@ var squares = [];
 
 var activeSquare, relativSquare;
 
+var treeBaseX = 550;
+var nodeSize = 10;
+var treeWidth = undefined;
+
 function preload() {
     data = loadJSON("data/test.json");
 }
 
 function setup() {
+    treeWidth = windowWidth - treeBaseX;
+
     canvasHeight = windowHeight - 80;
     canvasWidth = windowWidth - 16;
 
@@ -29,6 +35,17 @@ function setup() {
     createCanvas(canvasWidth, canvasHeight);
 
     createDiv('Use ARROWS to show neighbour of active node.<br>Use WASD to navigate through active nodes.<br>Use NUMPAD 1, 3, 7, 9 to navigate to a childnode.');
+}
+
+function windowResized() {
+    treeWidth = windowWidth - treeBaseX;
+
+    canvasHeight = windowHeight - 80;
+    canvasWidth = windowWidth - 16;
+
+    squares[0].buildTreeRoot();
+
+    resizeCanvas(canvasWidth, canvasHeight);
 }
 
 function processNode(node) {
