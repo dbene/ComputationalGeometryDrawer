@@ -2,14 +2,14 @@ var data;
 var points = [];
 var squares = [];
 
-var activeSquare;
+var activeSquare, relativSquare;
 
 function preload() {
     data = loadJSON("data/test.json");
 }
 
 function setup() {
-    canvasHeight = windowHeight - 16;
+    canvasHeight = windowHeight - 80;
     canvasWidth = windowWidth - 16;
 
     mapHeight = 500;
@@ -27,6 +27,8 @@ function setup() {
 
     frameRate(60);
     createCanvas(canvasWidth, canvasHeight);
+
+    createDiv('Use ARROWS to show neighbour of active node.<br>Use WASD to navigate through active nodes.<br>Use NUMPAD 1, 3, 7, 9 to navigate to a childnode.');
 }
 
 function processNode(node) {
@@ -62,6 +64,11 @@ function draw() {
         stroke(200, 128, 128);
         square(this.activeSquare.minX, this.activeSquare.minY, this.activeSquare.maxX - this.activeSquare.minX);
     }
+    if (relativSquare != undefined) {
+        fill(128, 200, 128);
+        stroke(128, 200, 128);
+        square(this.relativSquare.minX, this.relativSquare.minY, this.relativSquare.maxX - this.relativSquare.minX);
+    }
 
     // Border
     strokeWeight(2);
@@ -89,31 +96,63 @@ function mouseClicked() {
 function keyPressed() {
     if (keyCode === UP_ARROW) {
         if (this.activeSquare.neighbors.NORTH != undefined)
-            this.activeSquare.neighbors.NORTH.activate();
+            this.activeSquare.neighbors.NORTH.relativ();
     } else if (keyCode === RIGHT_ARROW) {
         if (this.activeSquare.neighbors.EAST != undefined)
-            this.activeSquare.neighbors.EAST.activate();
+            this.activeSquare.neighbors.EAST.relativ();
     } else if (keyCode === LEFT_ARROW) {
         if (this.activeSquare.neighbors.WEST != undefined)
-            this.activeSquare.neighbors.WEST.activate();
+            this.activeSquare.neighbors.WEST.relativ();
     } else if (keyCode === DOWN_ARROW) {
         if (this.activeSquare.neighbors.SOUTH != undefined)
-            this.activeSquare.neighbors.SOUTH.activate();
+            this.activeSquare.neighbors.SOUTH.relativ();
     } else if (keyCode === 105) {
         // 9
-        if (this.activeSquare.children[0] != undefined)
+        if (this.activeSquare.children[0] != undefined) {
             this.activeSquare.children[0].activate();
+            this.relativSquare = undefined;
+        }
     } else if (keyCode === 103) {
         // 7
-        if (this.activeSquare.children[1] != undefined)
+        if (this.activeSquare.children[1] != undefined) {
             this.activeSquare.children[1].activate();
+            this.relativSquare = undefined;
+        }
     } else if (keyCode === 97) {
         // 1
-        if (this.activeSquare.children[2] != undefined)
+        if (this.activeSquare.children[2] != undefined) {
             this.activeSquare.children[2].activate();
+            this.relativSquare = undefined;
+        }
     } else if (keyCode === 99) {
         // 3
-        if (this.activeSquare.children[3] != undefined)
+        if (this.activeSquare.children[3] != undefined) {
             this.activeSquare.children[3].activate();
+            this.relativSquare = undefined;
+        }
+    } else if (keyCode === 87) {
+        // W
+        if (this.activeSquare.neighbors.NORTH != undefined) {
+            this.activeSquare.neighbors.NORTH.activate();
+            this.relativSquare = undefined;
+        }
+    } else if (keyCode === 65) {
+        // A
+        if (this.activeSquare.neighbors.WEST != undefined) {
+            this.activeSquare.neighbors.WEST.activate();
+            this.relativSquare = undefined;
+        }
+    } else if (keyCode === 83) {
+        // S
+        if (this.activeSquare.neighbors.SOUTH != undefined) {
+            this.activeSquare.neighbors.SOUTH.activate();
+            this.relativSquare = undefined;
+        }
+    } else if (keyCode === 68) {
+        // D
+        if (this.activeSquare.neighbors.EAST != undefined) {
+            this.activeSquare.neighbors.EAST.activate();
+            this.relativSquare = undefined;
+        }
     }
 }

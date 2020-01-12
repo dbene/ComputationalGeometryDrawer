@@ -64,6 +64,10 @@ function Square(id, minX, maxX, minY, maxY, nPoint) {
             fill(255, 0, 0);
             stroke(255, 0, 0);
             circle(this.NODE.x, this.NODE.y, this.nodeSize);
+        } else if (relativSquare == this) {
+            fill(0, 255, 0);
+            stroke(0, 255, 0);
+            circle(this.NODE.x, this.NODE.y, this.nodeSize);
         } else {
             fill(255, 255, 255);
             stroke(0, 0, 0);
@@ -73,6 +77,10 @@ function Square(id, minX, maxX, minY, maxY, nPoint) {
 
     this.activate = function () {
         activeSquare = this;
+    }
+
+    this.relativ = function () {
+        relativSquare = this;
     }
 
     this.checkClick = function (X, Y) {
