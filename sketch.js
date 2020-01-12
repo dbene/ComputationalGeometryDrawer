@@ -57,7 +57,7 @@ function processNode(node) {
 function draw() {
     clear();
 
-    if(this.activeSquare != undefined){
+    if (this.activeSquare != undefined) {
         fill(200, 128, 128);
         stroke(200, 128, 128);
         square(this.activeSquare.minX, this.activeSquare.minY, this.activeSquare.maxX - this.activeSquare.minX);
@@ -88,12 +88,32 @@ function mouseClicked() {
 
 function keyPressed() {
     if (keyCode === UP_ARROW) {
-        console.log("up");
-      } else if (keyCode === RIGHT_ARROW) {
-        console.log("right");
-      } else if (keyCode === LEFT_ARROW) {
-        console.log("left");
-      } else if (keyCode === DOWN_ARROW) {
-        console.log("down");
-      }
-  }
+        if (this.activeSquare.neighbors.NORTH != undefined)
+            this.activeSquare.neighbors.NORTH.activate();
+    } else if (keyCode === RIGHT_ARROW) {
+        if (this.activeSquare.neighbors.EAST != undefined)
+            this.activeSquare.neighbors.EAST.activate();
+    } else if (keyCode === LEFT_ARROW) {
+        if (this.activeSquare.neighbors.WEST != undefined)
+            this.activeSquare.neighbors.WEST.activate();
+    } else if (keyCode === DOWN_ARROW) {
+        if (this.activeSquare.neighbors.SOUTH != undefined)
+            this.activeSquare.neighbors.SOUTH.activate();
+    } else if (keyCode === 105) {
+        // 9
+        if (this.activeSquare.children[0] != undefined)
+            this.activeSquare.children[0].activate();
+    } else if (keyCode === 103) {
+        // 7
+        if (this.activeSquare.children[1] != undefined)
+            this.activeSquare.children[1].activate();
+    } else if (keyCode === 97) {
+        // 1
+        if (this.activeSquare.children[2] != undefined)
+            this.activeSquare.children[2].activate();
+    } else if (keyCode === 99) {
+        // 3
+        if (this.activeSquare.children[3] != undefined)
+            this.activeSquare.children[3].activate();
+    }
+}

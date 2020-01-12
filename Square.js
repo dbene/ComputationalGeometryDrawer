@@ -5,6 +5,12 @@ function Square(id, minX, maxX, minY, maxY, nPoint) {
     this.maxX = maxX;
     this.maxY = maxY;
     this.children = [];
+    this.neighbors = {
+        "NORTH": undefined,
+        "WEST": undefined,
+        "SOUTH": undefined,
+        "EAST": undefined
+    };
     this.root = false;
 
     if (nPoint != undefined)
@@ -54,7 +60,7 @@ function Square(id, minX, maxX, minY, maxY, nPoint) {
             line(l.start.x, l.start.y, l.end.x, l.end.y);
         });
 
-        if(activeSquare == this){
+        if (activeSquare == this) {
             fill(255, 0, 0);
             stroke(255, 0, 0);
             circle(this.NODE.x, this.NODE.y, this.nodeSize);
@@ -80,35 +86,37 @@ function Square(id, minX, maxX, minY, maxY, nPoint) {
     }
 
     this.buildTreeRoot = function () {
-        if (this.root) {
-            var childCount = Object.keys(this.children).length;
-            var split = 1200 / childCount;
+        this.setNeighbours();
 
-            for (var i = 0; i < childCount; i++) {
-                var x = (i * split) + (split / 2);
+        var childCount = Object.keys(this.children).length;
+        var split = 1200 / childCount;
 
-                this.LINES.push({
-                    "start": {
-                        "x": this.treeBaseX + 600,
-                        "y": 50,
-                    },
-                    "end": {
-                        "x": this.treeBaseX + x,
-                        "y": 100,
-                    },
-                });
+        for (var i = 0; i < childCount; i++) {
+            var x = (i * split) + (split / 2);
 
-                this.children[i].buildTree(x, 100, split, i * split);
-            }
+            this.LINES.push({
+                "start": {
+                    "x": this.treeBaseX + 600,
+                    "y": 50,
+                },
+                "end": {
+                    "x": this.treeBaseX + x,
+                    "y": 100,
+                },
+            });
 
-            this.NODE = {
-                "x": this.treeBaseX + 600,
-                "y": 50,
-            }
+            this.children[i].buildTree(x, 100, split, i * split);
+        }
+
+        this.NODE = {
+            "x": this.treeBaseX + 600,
+            "y": 50,
         }
     }
 
     this.buildTree = function (X, Y, width, left) {
+        this.setNeighbours();
+
         var childCount = Object.keys(this.children).length;
         var split = width / childCount;
 
@@ -132,5 +140,16 @@ function Square(id, minX, maxX, minY, maxY, nPoint) {
             "x": this.treeBaseX + X,
             "y": Y,
         }
+    }
+
+    this.setNeighbours = function () {
+        if (data.nodes[this.id].NORTH != undefined)
+            this.neighbors.NORTH = squares[data.nodes[this.id].NORTH];
+        if (data.nodes[this.id].WEST != undefined)
+            this.neighbors.WEST = squares[data.nodes[this.id].WEST];
+        if (data.nodes[this.id].SOUTH != undefined)
+            this.neighbors.SOUTH = squares[data.nodes[this.id].SOUTH];
+        if (data.nodes[this.id].EAST != undefined)
+            this.neighbors.EAST = squares[data.nodes[this.id].EAST];
     }
 };
