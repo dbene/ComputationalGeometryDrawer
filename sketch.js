@@ -82,7 +82,7 @@ function draw() {
 
 function mouseClicked() {
     squares.forEach(sq => {
-        sq.checkClick(winMouseX, winMouseY);
+        sq.checkClick(winMouseX - 8, winMouseY - 8);
     });
 }
 
