@@ -1,5 +1,8 @@
 var data;
-var list = [];
+var points = [];
+var squares = [];
+
+var activeSquare;
 
 function preload() {
     data = loadJSON("data/test.json");
@@ -12,42 +15,53 @@ function setup() {
     mapHeight = 500;
     mapWidth = 500;
 
-    var rootSquare = new Square(0, 500, 0, 500);
-    rootSquare.root = true;
-    processNode(data.map, rootSquare);
+    data.nodes.forEach(node => {
+        var sq = new Square(node._id, node.minX, node.maxX, node.minY, node.maxY, node.point);
+        squares.push(sq);
+    });
+    squares[0].root = true;
 
-    frameRate(1);
+    processNode(data.map);
+
+    squares[0].buildTreeRoot();
+
+    frameRate(60);
     createCanvas(canvasWidth, canvasHeight);
 }
 
-function processNode(node, currentSquare) {
-    if (node.point != undefined) {
-        list.push(new Point(node.point.x, node.point.y, new Color(255, 0, 0), 5, undefined));
-    } else if (Object.keys(node).length > 0) {
-        list.push(currentSquare);
+function processNode(node) {
+    var sq = squares[node._refID];
 
-        diffX = (currentSquare.maxX - currentSquare.minX) / 2;
-        diffY = (currentSquare.maxY - currentSquare.minY) / 2;
-
-        var neSquare = new Square(currentSquare.minX + diffX, currentSquare.maxX, currentSquare.minY, currentSquare.maxY - diffY);
-        var nwSquare = new Square(currentSquare.minX, currentSquare.maxX - diffX, currentSquare.minY, currentSquare.maxY - diffY);
-        var swSquare = new Square(currentSquare.minX, currentSquare.maxX - diffX, currentSquare.minY + diffY, currentSquare.maxY);
-        var seSquare = new Square(currentSquare.minX + diffX, currentSquare.maxX, currentSquare.minY + diffY, currentSquare.maxY);
-
-        currentSquare.children.push(neSquare);
-        currentSquare.children.push(nwSquare);
-        currentSquare.children.push(swSquare);
-        currentSquare.children.push(seSquare);
-
-        if (node.NE) processNode(node.NE, neSquare);
-        if (node.NW) processNode(node.NW, nwSquare);
-        if (node.SW) processNode(node.SW, swSquare);
-        if (node.SE) processNode(node.SE, seSquare);
+    if (sq.point != undefined) {
+        points.push(sq.point);
+    } else if (Object.keys(node).length > 1) {
+        if (node.NE) {
+            sq.children.push(squares[node.NE._refID]);
+            processNode(node.NE);
+        }
+        if (node.NW) {
+            sq.children.push(squares[node.NW._refID]);
+            processNode(node.NW);
+        }
+        if (node.SW) {
+            sq.children.push(squares[node.SW._refID]);
+            processNode(node.SW);
+        }
+        if (node.SE) {
+            sq.children.push(squares[node.SE._refID]);
+            processNode(node.SE);
+        }
     }
 }
 
 function draw() {
     clear();
+
+    if(this.activeSquare != undefined){
+        fill(200, 128, 128);
+        stroke(200, 128, 128);
+        square(this.activeSquare.minX, this.activeSquare.minY, this.activeSquare.maxX - this.activeSquare.minX);
+    }
 
     // Border
     strokeWeight(2);
@@ -58,7 +72,28 @@ function draw() {
     line(1, mapHeight - 1, mapWidth - 1, mapHeight - 1);
 
     // Draw Elements
-    for (var i = 0; i < list.length; i++) {
-        list[i].show();
+    for (var i = 0; i < points.length; i++) {
+        points[i].show();
+    }
+    for (var i = 0; i < squares.length; i++) {
+        squares[i].show();
     }
 }
+
+function mouseClicked() {
+    squares.forEach(sq => {
+        sq.checkClick(winMouseX, winMouseY);
+    });
+}
+
+function keyPressed() {
+    if (keyCode === UP_ARROW) {
+        console.log("up");
+      } else if (keyCode === RIGHT_ARROW) {
+        console.log("right");
+      } else if (keyCode === LEFT_ARROW) {
+        console.log("left");
+      } else if (keyCode === DOWN_ARROW) {
+        console.log("down");
+      }
+  }
