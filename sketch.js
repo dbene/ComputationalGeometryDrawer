@@ -15,7 +15,7 @@ function preload() {
 function setup() {
     treeWidth = windowWidth - treeBaseX;
 
-    canvasHeight = windowHeight - 80;
+    canvasHeight = windowHeight - 96;
     canvasWidth = windowWidth - 16;
 
     mapHeight = 500;
@@ -34,13 +34,13 @@ function setup() {
     frameRate(60);
     createCanvas(canvasWidth, canvasHeight);
 
-    createDiv('Use ARROWS to show neighbour of active node.<br>Use WASD to navigate through active nodes.<br>Use NUMPAD 1, 3, 7, 9 to navigate to a childnode.');
+    createDiv('Click on a node in the tree to mark it.<br>Use ARROWS to show neighbour of active node.<br>Use WASD to navigate through active nodes.<br>Use NUMPAD 1, 3, 7, 9 to navigate to a childnode.');
 }
 
 function windowResized() {
     treeWidth = windowWidth - treeBaseX;
 
-    canvasHeight = windowHeight - 80;
+    canvasHeight = windowHeight - 96;
     canvasWidth = windowWidth - 16;
 
     squares[0].buildTreeRoot();
