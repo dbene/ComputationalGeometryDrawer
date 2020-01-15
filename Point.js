@@ -13,7 +13,7 @@ function Point(x, y, color, size, desc) {
 
         if (this.desc != undefined) {
             stroke(0, 0, 0);
-            strokeWeight(1);
+            strokeWeight(0.2);
 
             fill(0, 0, 0);
             textSize(18);
