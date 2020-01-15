@@ -5,11 +5,16 @@ function Point(x, y, color, size, desc) {
     this.size = size;
     this.desc = desc;
 
-    this.show = function () {
+    this.show = function (fitWindow) {
         fill(color.r, color.g, color.b);
         stroke(color.r, color.g, color.b);
 
-        circle(this.x, this.y, this.size);
+        if (fitWindow) {
+            var p = translateCoordinates(this.x, this.y);
+            circle(p.x, p.y, this.size);
+        } else {
+            circle(this.x, this.y, this.size);
+        }
 
         if (this.desc != undefined) {
             stroke(0, 0, 0);
@@ -17,7 +22,14 @@ function Point(x, y, color, size, desc) {
 
             fill(0, 0, 0);
             textSize(18);
-            text(this.desc, x + 18, y);
+
+            if (fitWindow) {
+                var p = translateCoordinates(this.x, this.y);
+                text(this.desc, p.x + 18, p.y);
+            } else {
+                text(this.desc, this.x + 18, this.y);
+            }
         }
+
     }
 }
