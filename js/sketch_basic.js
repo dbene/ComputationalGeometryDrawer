@@ -86,7 +86,7 @@ function draw() {
 
     // Draw Elements
     for (var i = 0; i < list.length; i++) {
-        list[i].show();
+        list[i].show(true);
     }
 }
 
