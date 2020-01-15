@@ -1,14 +1,13 @@
 function Node(nDimension, nBox, nPoint) {
     this.dimension = nDimension;
 
-    /*
+    
     this.color = undefined;
     if (this.dimension == "x") {
         this.color = new Color(255, 0, 0);
     } else if (this.dimension == "y") {
         this.color = new Color(0, 255, 0);
     }
-    */
    
     this.color = new Color(nPoint.color.r, nPoint.color.g, nPoint.color.b);    
     this.point = new Point(nPoint.x, nPoint.y, this.color, 10, "(" + nPoint.x + ", " + nPoint.y + ")");
