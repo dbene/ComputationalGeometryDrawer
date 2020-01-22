@@ -25,12 +25,12 @@ function setup() {
         });
     
         polygon.lines.forEach(line => {
-            var l = new Line(new Point(line.p1.x, line.p1.y, undefined, undefined, undefined), new Point(line.p2.x, line.p2.y, undefined, undefined, undefined), new Color(0, 0, 255), 6);
+            var l = new Line(new Point(line.p1.x, line.p1.y, undefined, undefined, undefined), new Point(line.p2.x, line.p2.y, undefined, undefined, undefined), line.color, line.width);
             lines.push(l);
         });
     
         polygon.triLines.forEach(line => {
-            var l = new Line(new Point(line.p1.x, line.p1.y, undefined, undefined, undefined), new Point(line.p2.x, line.p2.y, undefined, undefined, undefined), new Color(255, 0, 0), 2);
+            var l = new Line(new Point(line.p1.x, line.p1.y, undefined, undefined, undefined), new Point(line.p2.x, line.p2.y, undefined, undefined, undefined), line.color, line.width);
             lines.push(l);
         });
     });
