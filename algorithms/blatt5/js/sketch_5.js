@@ -18,7 +18,7 @@ function setup() {
 
     data.polygone.forEach(polygon => {
         polygon.points.forEach(point => {
-            var p = new Point(point.x, point.y, new Color(255, 0, 0), point.size, "(" + point.x + ", " + point.y + ") " + point.text);
+            var p = new Point(point.x, point.y, new Color(255, 0, 0), point.size, "(" + point.x + ", " + point.y + ")");
             points.push(p);
             checkMaxMinX(point.x);
             checkMaxMinY(point.y);
