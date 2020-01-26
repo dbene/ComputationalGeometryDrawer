@@ -7,6 +7,7 @@ let maxX = 0,
 let minX = 1024,
     minY = 1024;
 let maxWidth, maxHeight;
+let height, width;
 
 function preload() {
     data = loadJSON("data/blatt5.json");
@@ -18,17 +19,20 @@ function setup() {
 
     data.polygone.forEach(polygon => {
         polygon.points.forEach(point => {
-            var p = new Point(point.x, point.y, new Color(255, 0, 0), point.size, "(" + point.x + ", " + point.y + ")");
+            var text = "(" + point.x + ", " + point.y + ")";
+            if (point.text != undefined)
+                text += point.text;
+            var p = new Point(point.x, point.y, new Color(255, 0, 0), point.size, text);
             points.push(p);
             checkMaxMinX(point.x);
             checkMaxMinY(point.y);
         });
-    
+
         polygon.lines.forEach(line => {
             var l = new Line(new Point(line.p1.x, line.p1.y, undefined, undefined, undefined), new Point(line.p2.x, line.p2.y, undefined, undefined, undefined), line.color, line.width);
             lines.push(l);
         });
-    
+
         polygon.triLines.forEach(line => {
             var l = new Line(new Point(line.p1.x, line.p1.y, undefined, undefined, undefined), new Point(line.p2.x, line.p2.y, undefined, undefined, undefined), line.color, line.width);
             lines.push(l);
@@ -108,6 +112,11 @@ function draw() {
     for (var i = 0; i < points.length; i++) {
         points[i].show(true);
     }
+
+}
+
+function moveOrigin(y) {
+    return -y + height;
 }
 
 function translateCoordinates(Xw, Yw) {
@@ -122,6 +131,6 @@ function translateCoordinates(Xw, Yw) {
 
     return {
         x: Xs,
-        y: Ys
+        y: moveOrigin(Ys)
     };
 }

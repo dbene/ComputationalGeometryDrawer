@@ -21,7 +21,7 @@ function Point(x, y, color, size, desc) {
             strokeWeight(0.2);
 
             fill(0, 0, 0);
-            textSize(18);
+            textSize(12);
 
             if (fitWindow) {
                 var p = translateCoordinates(this.x, this.y);
